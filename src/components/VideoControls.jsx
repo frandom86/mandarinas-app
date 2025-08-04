@@ -6,6 +6,9 @@ import { ReactComponent as MuteIcon } from '../assets/icons/silenciar-volumen.sv
 import { ReactComponent as ExpandIcon } from '../assets/icons/expandir.svg';
 import { ReactComponent as CameraIcon } from '../assets/icons/camara-de-pelicula.svg';
 
+import '../index.css';
+import '../App.css';
+
 export default function VideoControls({
   isPlaying,
   onPlayPause,
@@ -19,36 +22,20 @@ export default function VideoControls({
 }) {
   return (
     <div className="controles-en-tv">
-      
-      {/* Sección Izquierda: Play/Pause */}
       <div className="seccion-izquierda">
-        <button
-          onClick={onPlayPause}
-          disabled={disableButtons}
-          title={isPlaying ? 'Pausar' : 'Reproducir'}
-        >
+        <button onClick={onPlayPause} disabled={disableButtons} title={isPlaying ? 'Pausar' : 'Reproducir'}>
           {isPlaying ? <PauseIcon /> : <PlayIcon />}
         </button>
       </div>
 
-      {/* Sección Centro: Cámara */}
       <div className="seccion-centro">
-        <button
-          onClick={onSwitchCamera}
-          disabled={disableButtons}
-          title="Cambiar cámara"
-        >
+        <button onClick={onSwitchCamera} disabled={disableButtons} title="Cambiar cámara">
           <CameraIcon />
         </button>
       </div>
 
-      {/* Sección Derecha: Mute + Volumen + Pantalla Completa */}
       <div className="seccion-derecha">
-        <button
-          onClick={onMuteToggle}
-          disabled={disableButtons}
-          title={isMuted ? 'Activar sonido' : 'Silenciar'}
-        >
+        <button onClick={onMuteToggle} disabled={disableButtons} title={isMuted ? 'Activar sonido' : 'Silenciar'}>
           {isMuted ? <MuteIcon /> : <VolumeIcon />}
         </button>
 
@@ -63,10 +50,7 @@ export default function VideoControls({
           className="w-24"
         />
 
-        <button
-          onClick={onFullScreen}
-          title="Pantalla completa"
-        >
+        <button onClick={onFullScreen} title="Pantalla completa">
           <ExpandIcon />
         </button>
       </div>

@@ -1,118 +1,100 @@
 import React, { useState, useEffect, useRef } from 'react';
-import VideoPlayer from './VideoPlayer';
-import AudioPlayer from './AudioPlayer';
+import Player from '@vimeo/player';
+import AudioPlayer from './AudioPlayer'; // Suponiendo que está correcto
+import VideoControls from './components/VideoControls';
 import './index.css';
 import './App.css';
-import VideoControls from './components/VideoControls';
 
 function App() {
   const [activeVideo, setActiveVideo] = useState(1);
-  const [targetVideo, setTargetVideo] = useState(null);
   const [volume, setVolume] = useState(0.5);
   const [muted, setMuted] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [buffering, setBuffering] = useState(false);
-  const [audioTime, setAudioTime] = useState(0);
-  const [video1Ready, setVideo1Ready] = useState(false);
-  const [video2Ready, setVideo2Ready] = useState(false);
-  const [transitioning, setTransitioning] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  const iframe1Ref = useRef(null);
+  const iframe2Ref = useRef(null);
   const audioRef = useRef(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (playing && audioRef.current) {
-        setAudioTime(audioRef.current.currentTime);
-      }
-    }, 100);
+  const player1Ref = useRef(null);
+  const player2Ref = useRef(null);
 
-    return () => clearInterval(interval);
+  // Init Vimeo players
+  useEffect(() => {
+    if (iframe1Ref.current && !player1Ref.current) {
+      player1Ref.current = new Player(iframe1Ref.current);
+      player1Ref.current.setVolume(muted ? 0 : volume);
+    }
+    if (iframe2Ref.current && !player2Ref.current) {
+      player2Ref.current = new Player(iframe2Ref.current);
+      player2Ref.current.setVolume(0); // Siempre muteado
+    }
+  }, [iframe1Ref, iframe2Ref]);
+
+  // Play / Pause sincronizado
+  useEffect(() => {
+    if (player1Ref.current && player2Ref.current && audioRef.current) {
+      if (playing) {
+        player1Ref.current.play();
+        player2Ref.current.play();
+        //audioRef.current.play();
+      } else {
+        player1Ref.current.pause();
+        player2Ref.current.pause();
+        //audioRef.current.pause();
+      }
+    }
   }, [playing]);
 
+  // Volumen y mute sincronizados
   useEffect(() => {
-    if (targetVideo !== null && !transitioning) {
-      setTransitioning(true);
-      setTimeout(() => {
-        setActiveVideo(targetVideo);
-        setTargetVideo(null);
-        setTransitioning(false);
-      }, 300);
+    if (player1Ref.current && player2Ref.current && audioRef.current) {
+      const vol = muted ? 0 : volume;
+      player1Ref.current.setVolume(vol);
+      player2Ref.current.setVolume(0);
+      audioRef.current.volume = vol;
+      audioRef.current.muted = muted;
     }
-  }, [targetVideo, transitioning]);
+  }, [volume, muted]);
 
+  // Sincronizar videos con audio (opcional)
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        setPlaying(false);
-      } else {
-        setPlaying(true);
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, []);
+    const interval = setInterval(() => {
+      if (!audioRef.current || !player1Ref.current || !player2Ref.current) return;
 
-  // Detectar cambios en fullscreen para sincronizar estado
-  useEffect(() => {
-    const onFullscreenChange = () => {
-      const fullscreenElement =
-        document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.msFullscreenElement ||
-        null;
+      const audioTime = audioRef.current.currentTime;
 
-      setIsFullscreen(!!fullscreenElement);
-    };
+      player1Ref.current.getCurrentTime().then((time1) => {
+        if (Math.abs(time1 - audioTime) > 0.2) {
+          player1Ref.current.setCurrentTime(audioTime);
+        }
+      });
+      player2Ref.current.getCurrentTime().then((time2) => {
+        if (Math.abs(time2 - audioTime) > 0.2) {
+          player2Ref.current.setCurrentTime(audioTime);
+        }
+      });
+    }, 200);
 
-    document.addEventListener('fullscreenchange', onFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
-    document.addEventListener('msfullscreenchange', onFullscreenChange);
-
-    return () => {
-      document.removeEventListener('fullscreenchange', onFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
-      document.removeEventListener('msfullscreenchange', onFullscreenChange);
-    };
+    return () => clearInterval(interval);
   }, []);
 
   const handleSwitchVideo = () => {
-    if (buffering || transitioning) return;
-    setTargetVideo(activeVideo === 1 ? 2 : 1);
+    setActiveVideo(activeVideo === 1 ? 2 : 1);
   };
 
   const toggleMute = () => {
     setMuted(!muted);
-    if (audioRef.current) {
-      audioRef.current.muted = !muted;
-    }
   };
 
   const toggleFullscreen = () => {
     const el = document.querySelector('.pantalla-tv');
-
     if (!el) return;
 
-    // Si no está en fullscreen, pedir fullscreen
-    if (!isFullscreen) {
-      if (el.requestFullscreen) {
-        el.requestFullscreen();
-      } else if (el.webkitRequestFullscreen) {
-        el.webkitRequestFullscreen();
-      } else if (el.msRequestFullscreen) {
-        el.msRequestFullscreen();
-      }
+    if (!document.fullscreenElement) {
+      el.requestFullscreen?.();
     } else {
-      // Si ya está en fullscreen, salir
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
+      document.exitFullscreen?.();
     }
   };
 
@@ -122,32 +104,28 @@ function App() {
 
       <div className="reproductor-container relative">
         <div className="pantalla-tv relative">
-          {(!video1Ready || !video2Ready) && (
-            <div className="absolute inset-0 flex items-center justify-center text-white z-10">
-              Cargando videos...
-            </div>
-          )}
-
-          <VideoPlayer
-            url={`${process.env.PUBLIC_URL}/videos/Video01.mp4`}
-            isActive={activeVideo === 1}
-            volume={muted ? 0 : volume}
-            playing={playing}
-            onReady={() => setVideo1Ready(true)}
-            onBuffer={setBuffering}
-            seekTime={audioTime}
-            isAudioSource={true}
+          <iframe
+            ref={iframe1Ref}
+            src="https://player.vimeo.com/video/1107167159?autoplay=1&loop=1&muted=0"
+            className={`absolute top-0 left-0 w-full h-full transition-opacity duration-500 ${
+              activeVideo === 1 ? 'opacity-100' : 'opacity-0'
+            }`}
+            frameBorder="0"
+            allow="autoplay; fullscreen"
+            allowFullScreen
+            title="Video 1"
           />
 
-          <VideoPlayer
-            url={`${process.env.PUBLIC_URL}/videos/Video02.mp4`}
-            isActive={activeVideo === 2}
-            volume={0}
-            playing={playing}
-            onReady={() => setVideo2Ready(true)}
-            onBuffer={setBuffering}
-            seekTime={audioTime}
-            isAudioSource={false}
+          <iframe
+            ref={iframe2Ref}
+            src="https://player.vimeo.com/video/1107167522?autoplay=1&loop=1&muted=1"
+            className={`absolute top-0 left-0 w-full h-full transition-opacity duration-500 ${
+              activeVideo === 2 ? 'opacity-100' : 'opacity-0'
+            }`}
+            frameBorder="0"
+            allow="autoplay; fullscreen"
+            allowFullScreen
+            title="Video 2"
           />
 
           <VideoControls
@@ -159,14 +137,8 @@ function App() {
             volume={volume}
             onFullScreen={toggleFullscreen}
             onSwitchCamera={handleSwitchVideo}
-            disableButtons={buffering || transitioning || !(video1Ready && video2Ready)}
+            disableButtons={false}
           />
-
-          {buffering && (
-            <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-              <div className="text-white text-xl">Cargando...</div>
-            </div>
-          )}
         </div>
       </div>
 
