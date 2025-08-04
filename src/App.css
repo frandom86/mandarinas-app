@@ -1,38 +1,192 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tv-container {
+  @apply w-full max-w-4xl mx-auto my-8 bg-gray-800 rounded-xl p-4;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8),
+              inset 0 0 15px rgba(255,255,255,0.1);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.tv-screen {
+  @apply relative w-full aspect-video bg-black overflow-hidden rounded-lg border-4 border-gray-700;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.tv-frame {
+  @apply relative bg-gray-900 p-4 rounded-lg;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.tv-stand {
+  @apply w-1/2 h-5 mx-auto bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700;
+  border-radius: 0 0 10px 10px;
+}
+
+.reproductor-container {
+  width: 80%;
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #222;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8),
+              inset 0 0 15px rgba(255,255,255,0.1);
+}
+
+.pantalla-tv {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 3px solid #444;
+  transition: all 0.3s ease;
+}
+
+.video-transition {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.contenedor-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.crt-effect {
+  background: 
+    linear-gradient(
+      rgba(18, 16, 16, 0) 50%, 
+      rgba(0, 0, 0, 0.25) 50%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  background-size: 100% 4px, 6px 100%;
+  @apply absolute inset-0 pointer-events-none;
+}
+
+.font-retro {
+  font-family: 'Arial', sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.controls {
+  @apply bg-gray-800 p-4 rounded-lg shadow-lg max-w-2xl mx-auto;
+}
+
+/* --- Controles en pantalla --- */
+.controles-en-tv {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+  backdrop-filter: blur(4px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 8px 8px;
+  box-sizing: border-box;
+}
+
+/* Distribución por secciones */
+.seccion-izquierda,
+.seccion-centro,
+.seccion-derecha {
+  display: flex;
+  align-items: center;
+}
+
+.seccion-izquierda {
+  flex: 1;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.seccion-centro {
+  flex: 0 0 auto;
+  justify-content: center;
+}
+
+.seccion-derecha {
+  flex: 1;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-right: 8px; /* Importante para que el fullscreen no se corte */
+}
+
+/* Estilo para todos los botones */
+.controles-en-tv button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  transition: transform 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.controles-en-tv button:hover:not(:disabled) {
+  transform: scale(1.15);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.controles-en-tv button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.controles-en-tv button svg,
+.controles-en-tv button img {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  fill: white;
+}
+
+/* Slider de volumen */
+.controles-en-tv input[type="range"] {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+/* (Opcional) Hover especial para la cámara */
+.seccion-centro button:hover svg {
+  fill: #facc15; /* Amarillo Mandarina */
+}
+
+.seccion-centro button {
+  width: 36px;
+  height: 36px;
+}
+
+.seccion-centro button svg {
+  width: 36px;
+  height: 36px;
+}
+
+.titulo-mandarinas {
+  font-size: 5rem; /* Más grande que text-4xl */
+  color: #FF6A00;  /* Naranja fuerte */
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  text-shadow: 
+    2px 2px 0 #000, 
+    4px 4px 0 rgba(0,0,0,0.2), 
+    1px 1px 10px rgba(255,106,0,0.5);
 }

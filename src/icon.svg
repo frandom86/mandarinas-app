@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+  <symbol id="i-play" viewBox="0 0 24 24">
+    <polygon points="5,3 19,12 5,21" />
+  </symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24">
+    <rect x="6" y="4" width="4" height="16" />
+    <rect x="14" y="4" width="4" height="16" />
+  </symbol>
+  <symbol id="i-volume" viewBox="0 0 24 24">
+    <polygon points="4,9 4,15 8,15 13,20 13,4 8,9" />
+    <path d="M16 8.82a4 4 0 0 1 0 6.36" stroke="currentColor" stroke-width="2" fill="none" />
+  </symbol>
+  <symbol id="i-volume-mute" viewBox="0 0 24 24">
+    <polygon points="4,9 4,15 8,15 13,20 13,4 8,9" />
+    <line x1="16" y1="8" x2="22" y2="16" stroke="currentColor" stroke-width="2" />
+    <line x1="22" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="2" />
+  </symbol>
+  <symbol id="i-fullscreen" viewBox="0 0 24 24">
+    <path d="M7 14H5v5h5v-2H7v-3zM14 5h3v3h2V5a2 2 0 0 0-2-2h-3v2zM5 5h3V3H5a2 2 0 0 0-2 2v3h2V5zM19 19h-3v2h3a2 2 0 0 0 2-2v-3h-2v3z" />
+  </symbol>
+</svg>
