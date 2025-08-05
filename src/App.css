@@ -27,11 +27,12 @@
   max-width: 900px;
   margin: 2rem auto;
   background: #222;
-  border-radius: 15px;
-  padding: 15px;
+  border-radius: 10px;
+  padding: 4px;
   box-shadow: 0 0 30px rgba(0,0,0,0.8),
               inset 0 0 15px rgba(255,255,255,0.1);
 }
+
 
 .pantalla-tv {
   position: relative;
@@ -39,8 +40,8 @@
   aspect-ratio: 16/9;
   background: #000;
   overflow: hidden;
-  border-radius: 8px;
-  border: 1px solid rgba(100, 100, 100, 0.3); /* borde fino y translúcido */
+  border-radius: 4px;
+  border: 0.5px solid rgba(100, 100, 100, 0.3); /* borde fino y translúcido */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* sombra sutil */
   transition: all 0.3s ease;
 }
