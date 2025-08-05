@@ -40,7 +40,8 @@
   background: #000;
   overflow: hidden;
   border-radius: 8px;
-  border: 3px solid #444;
+  border: 1px solid rgba(100, 100, 100, 0.3); /* borde fino y translúcido */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* sombra sutil */
   transition: all 0.3s ease;
 }
 
@@ -84,21 +85,21 @@
 /* Barra de controles */
 .controles-en-tv {
   position: absolute;
-  bottom: 16px;
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
   width: 85%;
-  max-width: 360px;
-  background: rgba(107, 44, 0, 0.5); /* naranja oscuro con transparencia 50% */
+  max-width: 1000px;
+  background: rgba(100, 44, 0, 0.5); /* naranja oscuro con transparencia 50% */
   padding: 6px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: 14px;
   box-sizing: border-box;
-  box-shadow: 0 0 8px rgba(107, 44, 0, 0.6);
+  box-shadow: 0 0 8px rgba(100, 50, 0, 0.6);
   z-index: 50;
-  backdrop-filter: blur(8px); /* para suavizar y dar profundidad */
+  backdrop-filter: blur(6px); /* para suavizar y dar profundidad */
 }
 
 /* Distribución por secciones */
@@ -156,8 +157,8 @@
 
 .controles-en-tv button svg,
 .controles-en-tv button img {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   pointer-events: none;
   fill: #FF584E; /* naranja rojizo suave */
   transition: fill 0.3s ease;
@@ -181,8 +182,8 @@
 .controles-en-tv input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   background: #FF584E;
   border-radius: 50%;
   cursor: pointer;
