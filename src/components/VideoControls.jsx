@@ -21,7 +21,7 @@ export default function VideoControls({
   disableButtons
 }) {
   return (
-    <div className="controles-en-tv">
+    <div className="controles-en-tv absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center justify-between w-11/12 max-w-xl px-4 py-2 bg-black bg-opacity-50 rounded-xl">
       <div className="seccion-izquierda">
         <button onClick={onPlayPause} disabled={disableButtons} title={isPlaying ? 'Pausar' : 'Reproducir'}>
           {isPlaying ? <PauseIcon /> : <PlayIcon />}

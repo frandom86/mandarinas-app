@@ -103,10 +103,10 @@ function App() {
       <h1 className="titulo-mandarinas">¡MANDARINAS!</h1>
 
       <div className="reproductor-container relative">
-        <div className="pantalla-tv relative">
+        <div className="pantalla-tv relative w-full aspect-video">
           <iframe
             ref={iframe1Ref}
-            src="https://player.vimeo.com/video/1107167159?autoplay=1&loop=1&muted=0"
+            src="https://player.vimeo.com/video/1107167159?autoplay=1&loop=1&muted=0&controls=0"
             className={`absolute top-0 left-0 w-full h-full transition-opacity duration-500 ${
               activeVideo === 1 ? 'opacity-100' : 'opacity-0'
             }`}
@@ -118,7 +118,7 @@ function App() {
 
           <iframe
             ref={iframe2Ref}
-            src="https://player.vimeo.com/video/1107167522?autoplay=1&loop=1&muted=1"
+            src="https://player.vimeo.com/video/1107167522?autoplay=1&loop=1&muted=1&controls=0"
             className={`absolute top-0 left-0 w-full h-full transition-opacity duration-500 ${
               activeVideo === 2 ? 'opacity-100' : 'opacity-0'
             }`}
