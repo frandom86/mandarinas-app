@@ -37,18 +37,16 @@ function App() {
       if (playing) {
         player1Ref.current.play();
         player2Ref.current.play();
-        //audioRef.current.play();
       } else {
         player1Ref.current.pause();
         player2Ref.current.pause();
-        //audioRef.current.pause();
       }
     }
   }, [playing]);
 
   // Volumen y mute sincronizados
   useEffect(() => {
-    if (player1Ref.current && player2Ref.current && audioRef.current) {
+    if (player1Ref.current && audioRef.current) {
       const vol = muted ? 0 : volume;
       player1Ref.current.setVolume(vol);
       player2Ref.current.setVolume(0);
@@ -99,14 +97,14 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col py-8">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-start px-4 pt-6">
       <h1 className="titulo-mandarinas">¡MANDARINAS!</h1>
 
       <div className="reproductor-container relative">
         <div className="pantalla-tv relative w-full aspect-video">
           <iframe
             ref={iframe1Ref}
-            src="https://player.vimeo.com/video/1107167159?autoplay=1&loop=1&muted=0&controls=0"
+            src="https://player.vimeo.com/video/1107167159?autoplay=1&loop=1&muted=1&controls=0"
             className={`absolute top-0 left-0 w-full h-full transition-opacity duration-500 ${
               activeVideo === 1 ? 'opacity-100' : 'opacity-0'
             }`}
