@@ -1,32 +1,23 @@
-import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 
 const AudioPlayer = forwardRef(({ src, playing, volume }, ref) => {
-  const audioRef = useRef(null);
+  const internalRef = useRef(null);
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
+    if (internalRef.current) {
       if (playing) {
-        audioRef.current.play().catch(err => {
-          console.error("Error al reproducir el audio:", err);
-        });
+        internalRef.current.play();
       } else {
-        audioRef.current.pause();
+        internalRef.current.pause();
       }
+      internalRef.current.volume = volume;
     }
   }, [playing, volume]);
 
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.src = src;
-    }
-  }, [src]);
+  // Enlazamos el ref externo al elemento audio
+  React.useImperativeHandle(ref, () => internalRef.current);
 
-  useImperativeHandle(ref, () => ({
-    current: audioRef.current
-  }));
-
-  return <audio ref={audioRef} />;
+  return <audio ref={internalRef} src={src} preload="auto" />;
 });
 
 export default AudioPlayer;
