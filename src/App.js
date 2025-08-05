@@ -77,6 +77,26 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+  const handleFirstInteraction = () => {
+    if (player1Ref.current && audioRef.current) {
+      player1Ref.current.setVolume(muted ? 0 : volume);
+      player1Ref.current.play();
+      audioRef.current.play();
+    }
+    window.removeEventListener('touchstart', handleFirstInteraction);
+    window.removeEventListener('click', handleFirstInteraction);
+  };
+
+  window.addEventListener('touchstart', handleFirstInteraction, { once: true });
+  window.addEventListener('click', handleFirstInteraction, { once: true });
+
+  return () => {
+    window.removeEventListener('touchstart', handleFirstInteraction);
+    window.removeEventListener('click', handleFirstInteraction);
+  };
+}, [muted, volume]);
+
   const handleSwitchVideo = () => {
     setActiveVideo(activeVideo === 1 ? 2 : 1);
   };

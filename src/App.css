@@ -23,12 +23,12 @@
 }
 
 .reproductor-container {
-  width: 80%;
-  max-width: 900px;
-  margin: 2rem auto;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   background: #222;
-  border-radius: 10px;
-  padding: 4px;
+  border-radius: 12px;
+  padding: 10px;
   box-shadow: 0 0 30px rgba(0,0,0,0.8),
               inset 0 0 15px rgba(255,255,255,0.1);
 }
@@ -227,14 +227,15 @@
 }
 
 .titulo-mandarinas {
-  font-size: 5rem; /* Más grande que text-4xl */
+  font-size: 3rem; /* Más grande que text-4xl */
   color: #FF6A00;  /* Naranja fuerte */
   font-weight: 900;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-family: 'Impact', 'Arial Black', sans-serif;
   text-shadow: 
     2px 2px 0 #000, 
     4px 4px 0 rgba(0,0,0,0.2), 
     1px 1px 10px rgba(255,106,0,0.5);
+  word-break: break-word;
 }
