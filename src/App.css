@@ -81,24 +81,24 @@
   @apply bg-gray-800 p-4 rounded-lg shadow-lg max-w-2xl mx-auto;
 }
 
-/* --- Controles en pantalla --- */
+/* Barra de controles */
 .controles-en-tv {
   position: absolute;
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  max-width:400px;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 8px 16px;
+  width: 85%;
+  max-width: 360px;
+  background: rgba(107, 44, 0, 0.5); /* naranja oscuro con transparencia 50% */
+  padding: 6px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 50;
-  backdrop-filter: blur(6px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  border-radius: 14px;
   box-sizing: border-box;
+  box-shadow: 0 0 8px rgba(107, 44, 0, 0.6);
+  z-index: 50;
+  backdrop-filter: blur(8px); /* para suavizar y dar profundidad */
 }
 
 /* Distribución por secciones */
@@ -127,23 +127,26 @@
   padding-right: 8px; /* Importante para que el fullscreen no se corte */
 }
 
-/* Estilo para todos los botones */
+/* Botones */
 .controles-en-tv button {
   background: transparent;
   border: none;
   cursor: pointer;
-  width: 26px;
-  height: 26px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
   padding: 0;
   flex-shrink: 0;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.2));
 }
 
+
 .controles-en-tv button:hover:not(:disabled) {
-  transform: scale(1.15);
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 3px rgba(255, 69, 58, 0.8));
 }
 
 .controles-en-tv button:disabled {
@@ -153,26 +156,62 @@
 
 .controles-en-tv button svg,
 .controles-en-tv button img {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   pointer-events: none;
-  fill: white;
+  fill: #FF584E; /* naranja rojizo suave */
+  transition: fill 0.3s ease;
 }
 
-/* Slider de volumen */
+
+/* Slider volumen */
 .controles-en-tv input[type="range"] {
-  width: 80px;
-  height: 4px;
-  appearance: none;
-  background: rgba(255, 102, 0, 0.6);
-  border-radius: 4px;
+  width: 60px;
+  height: 3px;
+  -webkit-appearance: none;
+  background: rgba(255, 106, 91, 0.7);
+  border-radius: 2px;
   cursor: pointer;
+  margin-left: 6px;
+  margin-right: 6px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.3));
 }
 
-/* (Opcional) Hover especial para la cámara */
-.seccion-centro button:hover svg {
-  fill: #facc15; /* Amarillo Mandarina */
+.controles-en-tv input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #FF584E;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease;
 }
+
+.controles-en-tv input[type="range"]:hover::-webkit-slider-thumb {
+  background: #FF9B8A;
+}
+
+.controles-en-tv input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: #FF584E;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease;
+}
+
+.controles-en-tv input[type="range"]:hover::-moz-range-thumb {
+  background: #FF9B8A;
+}
+
+.seccion-centro button:hover svg {
+  fill: #FF9B8A; /* naranja claro rosado */
+}
+
 
 .seccion-centro button {
   width: 36px;
@@ -180,8 +219,9 @@
 }
 
 .seccion-centro button svg {
-  width: 36px;
-  height: 36px;
+  width: 26px;
+  height: 26px;
+  fill: #FF6A5B; /* un poco más claro para destacar */
 }
 
 .titulo-mandarinas {
